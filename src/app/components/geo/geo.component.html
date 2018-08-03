@@ -1,0 +1,14 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div style="text-align:center">
+  <h1>
+    Welcome to {{ title }}!
+  </h1>
+</div>
+<div>
+  <button type="button" class="button" (click)="run()">Find my location!</button>
+  <div *ngIf="userPosition">
+    <p>Lon: {{userPosition.longitude}}</p>
+    <p>Lat: {{userPosition.latitude}}</p>
+  </div>
+</div>
+
