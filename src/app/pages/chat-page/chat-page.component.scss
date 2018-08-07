@@ -1,18 +1,21 @@
 .chat-page-container {
-    text-align: center;
+  max-width: 960px;
+  margin: 0 auto 20px;
+  text-align: center;
 }
 
 .message-input-container {
-    width: 100%;
-    position: fixed;
-    bottom: 20px;
+  width: 100%;
+  position: fixed;
+  bottom: 20px;
 }
 
 .message-input {
-    width: 500px;
-    margin: 0 auto;
+  max-width: 500px;
+  margin: 0 auto;
 
-    input {
-        width: 440px;
-    }
+  input {
+    width: calc(100% - 60px);
+    outline: none;
+  }
 }
