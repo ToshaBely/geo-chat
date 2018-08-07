@@ -1,16 +1,29 @@
-module.exports = (express) => {
-    const router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-    router.get('/', (req, res) => {
-        res.send('api router works');
+const controller = require('../controllers/message.controller');
+
+router.get('/', (req, res) => {
+    res.send('api router works');
+});
+
+router.route('/messages')
+    .get((req, res) => {
+        res.json(controller.getAllMessages());
+    })
+    .post((req, res) => {
+        controller.sendMessage(req.body.message);
+        console.log('[SEND]:', req.body.message);
+        res
+            .status(200)
+            .end();
     });
 
-    router.get('/test', (req, res) => {
-        res.json({
-            success: true,
-            message: 'Hello from api',
-        });
+router.get('/test', (req, res) => {
+    res.json({
+        success: true,
+        message: 'Hello from api',
     });
+});
 
-    return router;
-}
+module.exports = router;

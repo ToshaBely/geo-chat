@@ -1,0 +1,13 @@
+<div class="chat-page-container">
+  <p>
+    chat-page works!
+  </p>
+  <app-message-list [messageList]="messageList"></app-message-list>
+  
+  <div class="message-input-container">
+    <div class="message-input">
+      <input [(ngModel)]="messageText" (keyup.enter)="send()"/>
+      <button type="button" (click)="send()">Send</button>
+    </div>
+  </div>
+</div>

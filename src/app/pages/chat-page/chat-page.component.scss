@@ -1,0 +1,18 @@
+.chat-page-container {
+    text-align: center;
+}
+
+.message-input-container {
+    width: 100%;
+    position: fixed;
+    bottom: 20px;
+}
+
+.message-input {
+    width: 500px;
+    margin: 0 auto;
+
+    input {
+        width: 440px;
+    }
+}
