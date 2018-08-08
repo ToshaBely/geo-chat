@@ -27,7 +27,12 @@
 
 .message-input {
   input {
+    height: 30px;
     width: 240px;
+    box-sizing: border-box;
+    padding-left: 10px;
+    border-radius: 10px 0 0 10px;
+    border: 1px solid #eeeeee;
 
     @media screen and (min-width: 471px) {
       width: 380px;
@@ -43,6 +48,12 @@
   }
 
   button {
+    height: 30px;
     width: 60px;
+    background-color: #ffffff;
+    box-sizing: border-box;
+    border-radius: 0 10px 10px 0;
+    border: 1px solid #eeeeee;
+    font-size: 14px;
   }
 }

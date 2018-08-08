@@ -17,7 +17,7 @@ export class MessageService {
           console.log(error);
           return of( [{text: 'text from error'}] );
         })
-      )
+      );
   }
 
   public sendMessage(message: string): Observable<any> {
