@@ -14,6 +14,7 @@ import { ChatPageComponent } from './pages/chat-page/chat-page.component';
 import { AuthService } from './services/auth.service';
 import { MessageItemComponent } from './components/message-item/message-item.component';
 import { HeaderComponent } from './components/header/header.component';
+import { UserPanelComponent } from './components/user-panel/user-panel.component';
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import { HeaderComponent } from './components/header/header.component';
     ChatPageComponent,
     MessageItemComponent,
     HeaderComponent,
+    UserPanelComponent,
   ],
   providers: [
     MessageService,

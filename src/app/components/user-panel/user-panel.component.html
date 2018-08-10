@@ -1,0 +1,28 @@
+<ng-container *ngIf="user; else loginTemplate">
+  <div class="user-toggler" (click)="isOpen = !isOpen">
+    User Name
+  </div>
+
+  <div class="user-actions" *ngIf="isOpen">
+    <ul>
+      <li>
+        <a [routerLink]="['./chat']">Chat</a>
+      </li>
+      <li>
+        <a [routerLink]="['./main']">Main</a>
+      </li>
+      <li>
+        <a [routerLink]="['./app']">App</a>
+      </li>
+      <li>
+        <a href="javascript:void(0)" (click)="logout.emit(); isOpen = false">Logout</a>
+      </li>
+    </ul>
+  </div>
+</ng-container>
+
+<ng-template #loginTemplate>
+  <div (click)="login.emit()">
+    Need to login
+  </div>
+</ng-template>

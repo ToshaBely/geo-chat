@@ -13,5 +13,12 @@
     </ul>
   </nav>
 
+  <div class="user-panel">
+    <app-user-panel [user]="user$ | async"
+                    (login)="authService.login()"
+                    (logout)="authService.logout()">
+    </app-user-panel>
+  </div>
+
   <div class="head">Geo-chat</div>
 </header>

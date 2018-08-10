@@ -13,26 +13,15 @@ import { AuthService } from '../../services/auth.service';
 export class ChatPageComponent implements OnInit, OnDestroy {
   public messageText = '';
   public messageList: any[] = [];
-  public user;
+  public user$;
 
   private socket$: WebSocketSubject<any>;
 
-  constructor(public authService: AuthService) {
-    this.createSocket();
-  }
+  constructor(public authService: AuthService) {}
 
   public ngOnInit() {
-    this.socket$
-      .pipe(
-        pluck('data'),
-      )
-      .subscribe(
-        (msgList: any[]) => this.messageList = [...this.messageList, ...msgList],
-        err => console.error(err),
-        () => console.log('[WS:COMPLETED]')
-      );
-
-    this.user = this.authService.currentUser;
+    this.user$ = this.authService.getUser();
+    this.createSocket();
   }
 
   public ngOnDestroy(): void {
@@ -49,6 +38,15 @@ export class ChatPageComponent implements OnInit, OnDestroy {
     const host = window.location.host;
 
     this.socket$ = new WebSocketSubject(`${wsProtocol}//${host}/message-socket`);
+    this.socket$
+      .pipe(
+        pluck('data'),
+      )
+      .subscribe(
+        (msgList: any[]) => this.messageList = [...this.messageList, ...msgList],
+        err => console.error(err),
+        () => console.log('[WS:COMPLETED]')
+      );
   }
 
 }
