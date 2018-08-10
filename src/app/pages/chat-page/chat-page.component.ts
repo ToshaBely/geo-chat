@@ -1,27 +1,54 @@
-import { Component, OnInit } from '@angular/core';
-import { MessageService } from '../../services/message.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+
+import { pluck } from 'rxjs/operators';
+import { WebSocketSubject } from 'rxjs/webSocket';
+
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-chat-page',
   templateUrl: './chat-page.component.html',
   styleUrls: ['./chat-page.component.scss']
 })
-export class ChatPageComponent implements OnInit {
-  public messageText: string = '';
-  public messageList: any[];
+export class ChatPageComponent implements OnInit, OnDestroy {
+  public messageText = '';
+  public messageList: any[] = [];
+  public user;
 
-  constructor(private messageService: MessageService) { }
+  private socket$: WebSocketSubject<any>;
 
-  ngOnInit() {
-    this.messageService.getMessageList().subscribe( messageList => this.messageList = messageList );
+  constructor(public authService: AuthService) {
+    this.createSocket();
+  }
+
+  public ngOnInit() {
+    this.socket$
+      .pipe(
+        pluck('data'),
+      )
+      .subscribe(
+        (msgList: any[]) => this.messageList = [...this.messageList, ...msgList],
+        err => console.error(err),
+        () => console.log('[WS:COMPLETED]')
+      );
+
+    this.user = this.authService.currentUser;
+  }
+
+  public ngOnDestroy(): void {
+    this.socket$.unsubscribe();
   }
 
   public send() {
-    console.log('[SEND]:', this.messageText);
-    this.messageService.sendMessage(this.messageText).subscribe(() => {
-      this.messageService.getMessageList().subscribe( messageList => this.messageList = messageList );
-    });
+    this.socket$.next(this.messageText);
     this.messageText = '';
+  }
+
+  private createSocket() {
+    const wsProtocol = window.location.protocol.replace('http', 'ws');
+    const host = window.location.host;
+
+    this.socket$ = new WebSocketSubject(`${wsProtocol}//${host}/message-socket`);
   }
 
 }

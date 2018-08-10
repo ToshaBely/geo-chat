@@ -11,6 +11,9 @@ import { GeoComponent } from './components/geo/geo.component';
 import { MessageListComponent } from './components/message-list/message-list.component';
 import { MessageService } from './services/message.service';
 import { ChatPageComponent } from './pages/chat-page/chat-page.component';
+import { AuthService } from './services/auth.service';
+import { MessageItemComponent } from './components/message-item/message-item.component';
+import { HeaderComponent } from './components/header/header.component';
 
 @NgModule({
   imports: [
@@ -25,9 +28,12 @@ import { ChatPageComponent } from './pages/chat-page/chat-page.component';
     GeoComponent,
     MessageListComponent,
     ChatPageComponent,
+    MessageItemComponent,
+    HeaderComponent,
   ],
   providers: [
     MessageService,
+    AuthService,
   ],
   bootstrap: [AppComponent]
 })
