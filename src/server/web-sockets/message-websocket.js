@@ -7,6 +7,7 @@ module.exports = (server) => {
 
   webSocketServer.on('connection', (socket) => {
     console.log('[WS:OPEN]');
+    socket.isAlive = true;
     wsSend(socket, {data: messageController.getAllMessages()});
 
     socket.on('message', (data) => {
@@ -19,10 +20,26 @@ module.exports = (server) => {
         .forEach(client => wsSend(client, { message: 'Broadcast', data: [msg] }));
     });
 
+    // socket.on('pong', () => {
+    //   socket.isAlive = true;
+    // });
+
     socket.on('close', (code, reason) => {
       console.log('[WS:CLOSE]: ', code, reason);
+      socket.isAlive = false;
     });
   });
+
+  // const interval = setInterval(function ping() {
+  //   webSocketServer.clients
+  //     .forEach(client => {
+  //       if (!client.isAlive) return client.terminate();
+  //
+  //       client.isAlive = false;
+  //       client.ping(() => {});
+  //     });
+  // }, 60 * 1000);
+
 };
 
 function wsSend(webSocket, obj) {

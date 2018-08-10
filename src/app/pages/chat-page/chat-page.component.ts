@@ -18,16 +18,16 @@ export class ChatPageComponent implements OnInit, OnDestroy {
   private socket$: WebSocketSubject<any>;
 
   constructor(public authService: AuthService) {
-    this.socket$ = new WebSocketSubject('ws://localhost:3000/message-socket');
+    this.createSocket();
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.socket$
       .pipe(
         pluck('data'),
       )
       .subscribe(
-        msgList => this.messageList = [...this.messageList, ...msgList],
+        (msgList: any[]) => this.messageList = [...this.messageList, ...msgList],
         err => console.error(err),
         () => console.log('[WS:COMPLETED]')
       );
@@ -35,13 +35,20 @@ export class ChatPageComponent implements OnInit, OnDestroy {
     this.user = this.authService.currentUser;
   }
 
+  public ngOnDestroy(): void {
+    this.socket$.unsubscribe();
+  }
+
   public send() {
     this.socket$.next(this.messageText);
     this.messageText = '';
   }
 
-  ngOnDestroy(): void {
-    this.socket$.unsubscribe();
+  private createSocket() {
+    const wsProtocol = window.location.protocol.replace('http', 'ws');
+    const host = window.location.host;
+
+    this.socket$ = new WebSocketSubject(`${wsProtocol}//${host}/message-socket`);
   }
 
 }
